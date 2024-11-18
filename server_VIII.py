@@ -5,8 +5,17 @@ import socket
 import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
+import time
 # from sympy import isprime
 # import sys
+
+# start_time = time.time()
+# for _ in range(100000):
+#     pass
+
+# end_time = time.time()
+
+elapsed_time = 0
 
 
 
@@ -14,15 +23,15 @@ def RealChua(t, state):
     """
     Computes the derivatives of the Chua's circuit variables.
     """
-    V1, V2, z = state  # Unpack state variables
-    R0 = 4.1  # 3.9 Ohms    
-    # Circuit constants
-    C1 = 10e-9   # 10 nF
-    C2 = 100e-9  # 100 nF
-    R = 1802.0     # 1.8 kOhms
-    G = 1 / R    # Conductance
+    V1, V2, z = state  
+    R0 = 3.8 # 3.9 Ohms  
 
-    # Chua Diode constants
+    # Circuit constants
+    C1 = 10e-9 + elapsed_time*1e-8   # 10 nF
+    C2 = 100e-9  # 100 nF
+    R = 15 +R0*450.0   
+    G = 1 / R    
+
     R1 = 220
     R2 = 220
     R3 = 2200
@@ -77,7 +86,7 @@ def RealChua(t, state):
     # Chua's circuit equations
     xdot = (1 / C1) * (G * (V2 - V1) - g)
     ydot = (1 / C2) * (G * (V1 - V2) + z)
-    zdot = -(1 / L) * (V2 + 4*z) 
+    zdot = -(1 / L) * (V2) 
 
     return [xdot, ydot, zdot]
 
@@ -114,7 +123,7 @@ qu = q_set[:min_size]
 ru = r_set[:min_size]
 
 host = socket.gethostbyname(socket.gethostname())
-port = 55555
+port = 3000
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((host, port))

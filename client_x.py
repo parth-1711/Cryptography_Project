@@ -15,7 +15,7 @@ password = simpledialog.askstring("Password", "Enter password to join the privat
 root.deiconify()
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(('10.2.5.39', 55555))  
+client.connect(('10.2.4.110', 3000))  
 
 BUFSIZE = 1024
 public_key = []
